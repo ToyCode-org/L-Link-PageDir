@@ -14,6 +14,10 @@ const LoadingContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  position: absolute;
+  left: 50%;
+  top: 40%;
+  z-index: 999px;
 `;
 
 const spinAnimation = keyframes`
