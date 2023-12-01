@@ -5,10 +5,12 @@ export const contentFilter = (content: CalenderContents[]) => {
   const thisDate = new Date();
   const today = thisDate.getDate();
   const hour = thisDate.getHours();
+
   let adventure: CalenderContents[] = [];
   let island: CalenderContents[] = [];
   let fieldBoss: CalenderContents[] = [];
   let chaosGate: CalenderContents[] = [];
+
   content.forEach(value => {
     const { StartTimes, CategoryName } = value;
     const todayStart = StartTimes.filter(time => {
@@ -19,6 +21,7 @@ export const contentFilter = (content: CalenderContents[]) => {
         return time;
       }
     });
+
     const newValue = { ...value, StartTimes: todayStart };
     if (todayStart.length) {
       switch (CategoryName) {
@@ -37,6 +40,16 @@ export const contentFilter = (content: CalenderContents[]) => {
       }
     }
   });
+
+  adventure.sort(
+    (a, b) =>
+      new Date(a.StartTimes[0]).getTime() - new Date(b.StartTimes[0]).getTime(),
+  );
+  island.sort(
+    (a, b) =>
+      new Date(a.StartTimes[0]).getTime() - new Date(b.StartTimes[0]).getTime(),
+  );
+
   const contentList = {
     adventure,
     island,

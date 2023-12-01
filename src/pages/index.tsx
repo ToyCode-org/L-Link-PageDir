@@ -83,7 +83,9 @@ export default function Home() {
 const Container = styled.div`
   display: flex;
 `;
-const Challenges = styled.section``;
+const Challenges = styled.section`
+  width: 200px;
+`;
 
 const ChallengeContent = styled.div`
   margin-bottom: 25px;
@@ -102,7 +104,6 @@ const ChallengeContent = styled.div`
 const ChallengeList = styled.li`
   display: flex;
   align-items: end;
-  width: 200px;
   height: 80px;
   background-position: 100% 0%;
 
