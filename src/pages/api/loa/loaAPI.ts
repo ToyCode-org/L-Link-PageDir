@@ -14,16 +14,56 @@ import axios from "axios";
 // 503 - Service Unavailable
 // 504 - Gateway Timeout
 
+const lostArkJWT = process.env.NEXT_PUBLIC_LOSTARK_API_KEY;
+
 const LOSTARK = axios.create({
   baseURL: process.env.NEXT_PUBLIC_LOSTARK_API_HOST,
+  headers: {
+    Authorization: `bearer ${lostArkJWT}`,
+    Accept: "application/json",
+  },
 });
 
-LOSTARK.interceptors.request.use(config => {
-  const lostArkJWT = process.env.NEXT_PUBLIC_LOSTARK_API_KEY;
-  config.headers.Authorization = `bearer ${lostArkJWT}`;
-  config.headers.Accept = "application/json";
-  return config;
+// LOSTARK.interceptors.request.use(config => {
+//   const lostArkJWT = process.env.NEXT_PUBLIC_LOSTARK_API_KEY;
+//   config.headers.Authorization = `bearer ${lostArkJWT}`;
+//   config.headers.Accept = "application/json";
+//   return config;
+// });
+
+const getCacheAge = () => {
+  const today = new Date();
+  const thisYear = today.getFullYear();
+  const thisMonth = today.getMonth() + 1;
+  const thisDate = today.getDate();
+  const todayEnd = new Date(`${thisYear}-${thisMonth}-${thisDate} 23:59:59`);
+
+  const todayTime = today.getTime();
+  const todayEndTime = todayEnd.getTime();
+  const restTime = todayEndTime / 1000 - todayTime / 1000;
+  return parseInt(restTime.toString());
+};
+
+const LOASTARK_CACHE = axios.create({
+  baseURL: process.env.NEXT_PUBLIC_LOSTARK_API_HOST,
+  headers: {
+    Authorization: `bearer ${lostArkJWT}`,
+    Accept: "application/json",
+    CacheControl: `max-age=${getCacheAge()}`,
+  },
 });
+// LOASTARK_CACHE.interceptors.request.use(config => {
+//   const restTime = getCacheAge();
+//   config.headers["Cache-Control"] = `max-age=${restTime}`;
+
+//   return config;
+// });
+// LOASTARK_CACHE.interceptors.response.use(config => {
+//   const restTime = getCacheAge();
+//   config.headers["Cache-Control"] = `max-age=${parseInt(restTime.toString())}`;
+
+//   return config;
+// });
 
 export const loaAPI = {
   // Character
@@ -61,7 +101,11 @@ export const loaAPI = {
     LOSTARK.get(`/gamecontents/challenge-abyss-dungeons`),
   getChallengeGuardianRaidsByGameContents: () =>
     LOSTARK.get(`/gamecontents/challenge-guardian-raids`),
-  getCalenderByGameContents: () => LOSTARK.get(`gamecontents/calendar`),
+  getCalenderByGameContents: () => LOSTARK.get(`/gamecontents/calendar`),
   // Auctions - no Auctions
   // Markets - no Markets
+  // ####
+  // News
+  getNotices: () => LOASTARK_CACHE.get(`/news/notices`),
+  getEvents: () => LOASTARK_CACHE.get(`/news/events`),
 };

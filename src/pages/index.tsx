@@ -2,17 +2,23 @@ import styled from "styled-components";
 import { useState, useEffect } from "react";
 import { loaAPI } from "./api/loa/loaAPI";
 import { MainContents } from "@/components/home/mainContents";
+import { Challenges } from "@/components/home/challenges";
+import { SideBanner } from "@/components/home/sideBanner";
 
 // type
 import { MainCalenderContents } from "@/types";
 
 export default function Home() {
-  const [{ challengeAbyss, challengeGuardian, content }, setContents] =
-    useState<MainCalenderContents>({
-      challengeAbyss: [],
-      challengeGuardian: [],
-      content: [],
-    });
+  const [
+    { challengeAbyss, challengeGuardian, content, events, notices },
+    setContents,
+  ] = useState<MainCalenderContents>({
+    challengeAbyss: [],
+    challengeGuardian: [],
+    content: [],
+    events: [],
+    notices: [],
+  });
 
   const getMainContents = async () => {
     const gameContents = loaAPI.getCalenderByGameContents();
@@ -20,16 +26,22 @@ export default function Home() {
       loaAPI.getChallengeAbyssDungeonsByGameContents();
     const challengeGuardianRaid =
       loaAPI.getChallengeGuardianRaidsByGameContents();
+    const events = loaAPI.getEvents();
+    const notices = loaAPI.getNotices();
     const data = await Promise.all([
       gameContents,
       challengeAbyssDungeons,
       challengeGuardianRaid,
+      events,
+      notices,
     ]);
 
     const mainContent = {
       content: data[0].data,
       challengeAbyss: data[1].data,
       challengeGuardian: data[2].data.Raids,
+      events: data[3].data,
+      notices: data[4].data,
     };
     setContents(mainContent);
   };
@@ -41,40 +53,12 @@ export default function Home() {
   return (
     <>
       <Container>
-        <Challenges>
-          <ChallengeContent>
-            <p>도전 어비스 던전</p>
-            <ul>
-              {challengeAbyss.map((value, index) => {
-                return (
-                  <ChallengeList
-                    key={index}
-                    style={{ backgroundImage: `url(${value.Image})` }}
-                  >
-                    <span>{value.Name}</span>
-                  </ChallengeList>
-                );
-              })}
-            </ul>
-          </ChallengeContent>
-          <ChallengeContent>
-            <p>도전 가디언 토벌</p>
-            <ul>
-              {challengeGuardian.map((value, index) => {
-                return (
-                  <ChallengeList
-                    key={index}
-                    style={{ backgroundImage: `url(${value.Image})` }}
-                  >
-                    <span>{value.Name}</span>
-                  </ChallengeList>
-                );
-              })}
-            </ul>
-          </ChallengeContent>
-        </Challenges>
+        <Challenges
+          challengeAbyss={challengeAbyss}
+          challengeGuardian={challengeGuardian}
+        />
         <MainContents content={content} />
-        <SideContent>home</SideContent>
+        <SideBanner events={events} notices={notices} />
       </Container>
     </>
   );
@@ -83,36 +67,3 @@ export default function Home() {
 const Container = styled.div`
   display: flex;
 `;
-const Challenges = styled.section`
-  width: 200px;
-`;
-
-const ChallengeContent = styled.div`
-  margin-bottom: 25px;
-  border: 1px solid #7b7b7b;
-  border-radius: 10px;
-  background-color: #15181d;
-
-  & p {
-    margin: 0;
-    padding: 5px;
-    text-align: center;
-    font-weight: bold;
-  }
-`;
-
-const ChallengeList = styled.li`
-  display: flex;
-  align-items: end;
-  height: 80px;
-  background-position: 100% 0%;
-
-  & span {
-    padding: 5px;
-    color: #f7f3b2;
-    font-weight: bold;
-    font-size: 13px;
-  }
-`;
-
-const SideContent = styled.aside``;

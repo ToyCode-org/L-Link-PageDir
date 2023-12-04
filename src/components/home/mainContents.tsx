@@ -25,7 +25,7 @@ export const MainContents = ({ content }: Props) => {
     ["스케줄 섬", "등장하는 스케줄 섬이 없습니다.", island],
   ];
 
-  const fieldContentList: CalenderContents[][] = [fieldBoss, chaosGate];
+  const fieldContentList: CalenderContents[][] = [chaosGate, fieldBoss];
 
   return (
     <Container>

@@ -243,9 +243,29 @@ export type CalenderContents = {
   StartTimes: string[];
 };
 
+// Events
+export type GameEvents = {
+  EndDate: string;
+  Link: string;
+  RewardDate: string;
+  StartDate: string;
+  Thumbnail: string;
+  Title: string;
+};
+
+// Notices
+export type Notices = {
+  Date: string;
+  Link: string;
+  Title: string;
+  Type: string;
+};
+
 // Merged
 export type MainCalenderContents = {
   challengeAbyss: AbyssDungeon[];
   challengeGuardian: GuardianRaid[];
   content: CalenderContents[];
+  events: GameEvents[];
+  notices: Notices[];
 };
