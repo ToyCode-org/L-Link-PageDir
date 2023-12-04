@@ -1,7 +1,11 @@
+import styled from "styled-components";
+
 export default function RecommandClass() {
   return (
-    <div>
+    <Container>
       <p>직업추천</p>
-    </div>
+    </Container>
   );
 }
+
+const Container = styled.div``;

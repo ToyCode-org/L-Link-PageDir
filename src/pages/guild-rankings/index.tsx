@@ -88,7 +88,7 @@ const SelectBtn = styled.button`
   border: none;
   border: 2px solid white;
   border-radius: 10px;
-  background-color: black;
+  background-color: #15181d;
   color: white;
   font-weight: bold;
   font-size: 14px;
@@ -115,7 +115,7 @@ const RankList = styled.li`
   height: 140px;
   border: 2px solid white;
   border-radius: 10px;
-  background-color: black;
+  background-color: #15181d;
 `;
 
 const RankNumber = styled.div`
