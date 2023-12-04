@@ -96,7 +96,7 @@ export const MainContents = ({ content }: Props) => {
 
 const Container = styled.section`
   margin: 0 20px;
-  width: 660px;
+  width: 500px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -110,7 +110,7 @@ const ContentWrap = styled.div`
   flex-direction: column;
   align-items: center;
 
-  width: 600px;
+  width: 500px;
   border: 1px solid #7b7b7b;
   border-radius: 10px;
   background-color: #15181d;

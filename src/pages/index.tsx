@@ -54,11 +54,12 @@ export default function Home() {
     <>
       <Container>
         <Challenges
+          notices={notices}
           challengeAbyss={challengeAbyss}
           challengeGuardian={challengeGuardian}
         />
         <MainContents content={content} />
-        <SideBanner events={events} notices={notices} />
+        <SideBanner events={events} />
       </Container>
     </>
   );
@@ -66,4 +67,5 @@ export default function Home() {
 
 const Container = styled.div`
   display: flex;
+  justify-content: center;
 `;
