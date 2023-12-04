@@ -12,9 +12,10 @@ export const Header = () => {
       </HeaderTop>
       <HeaderNav>
         <Link href="/">홈</Link>
-        <Link href="/guild-rankings">길드</Link>
-        <Link href="/rankings">순위</Link>
-        <Link href="/statistics">통계</Link>
+        <Link href="/guild-rankings">길드랭킹</Link>
+        {/* <Link href="/rankings">순위</Link> */}
+        {/* <Link href="/statistics">통계</Link> */}
+        <Link href="/recommand-class">직업추천</Link>
         <Link href="/stone-shave">세공</Link>
       </HeaderNav>
     </HeaderWrap>

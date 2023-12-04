@@ -269,3 +269,15 @@ export type MainCalenderContents = {
   events: GameEvents[];
   notices: Notices[];
 };
+
+// Guild Ranking
+export type GuildRanking = {
+  Rank: number;
+  Rating: number;
+  GuildName: string;
+  GuildMessage: string;
+  MasterName: string;
+  MaxMemberCount: number;
+  MemberCount: number;
+  UpdateDate: string;
+};
