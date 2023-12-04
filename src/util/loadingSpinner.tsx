@@ -34,7 +34,8 @@ const LoadingIcon = styled.div`
   margin-bottom: 10px;
   width: 50px;
   height: 50px;
-  border: 4px solid #fff;
+  border: 4px solid orange;
+  /* border: 4px solid #fff; */
   border-top-color: transparent;
   border-right-color: transparent;
   border-radius: 50%;
@@ -49,6 +50,7 @@ const msgAnimation = keyframes`
 `;
 const LoadingMsg = styled.div`
   font-weight: bold;
-  color: white;
+  /* color: white; */
+  color: orange;
   animation: ${msgAnimation} 1s;
 `;
