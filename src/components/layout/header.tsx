@@ -16,7 +16,7 @@ export const Header = () => {
         {/* <Link href="/rankings">순위</Link> */}
         {/* <Link href="/statistics">통계</Link> */}
         <Link href="/recommand-class">직업추천</Link>
-        <Link href="/stone-shave">세공</Link>
+        <Link href="/stone-shave">스톤 세공</Link>
       </HeaderNav>
     </HeaderWrap>
   );

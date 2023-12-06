@@ -21,6 +21,7 @@ export const SearchCharacter = () => {
         type="text"
         placeholder="캐릭터명을 입력해주세요"
         autoComplete="off"
+        maxLength={16}
       />
       <SearchBtn type="submit">
         <SearchIcon />

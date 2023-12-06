@@ -24,6 +24,7 @@ export default function GuildRankings() {
     "카제로스",
   ];
 
+  // TODO : Card UI 수정 필요
   return (
     <Container>
       <NameTagP>길드 랭킹</NameTagP>
@@ -48,6 +49,7 @@ export default function GuildRankings() {
             GuildMessage,
             MemberCount,
             MaxMemberCount,
+            MasterName,
           } = guild;
           return (
             <RankList key={index}>
@@ -57,6 +59,7 @@ export default function GuildRankings() {
                   길드명 : {GuildName}
                   <span>({Rating} RP)</span>
                 </p>
+                <GuildMaster>길마 : {MasterName}</GuildMaster>
                 <GuildMsg>{GuildMessage}</GuildMsg>
                 <MemberCnt>{`${MemberCount} / ${MaxMemberCount}`}</MemberCnt>
               </RankListBody>
@@ -86,7 +89,7 @@ const SelectBtn = styled.button`
   width: 100px;
   height: 40px;
   border: none;
-  border: 2px solid white;
+  border: 2px solid #7b7b7b;
   border-radius: 10px;
   background-color: #15181d;
   color: white;
@@ -112,8 +115,8 @@ const RankList = styled.li`
   align-items: center;
 
   width: 550px;
-  height: 140px;
-  border: 2px solid white;
+  height: 180px;
+  border: 2px solid #7b7b7b;
   border-radius: 10px;
   background-color: #15181d;
 `;
@@ -124,11 +127,11 @@ const RankNumber = styled.div`
   justify-content: center;
   align-items: center;
   width: 80px;
-  height: 144px;
+  height: 160px;
   font-size: 28px;
   font-weight: bold;
   text-align: center;
-  border-right: 2px solid white;
+  border-right: 2px solid #7b7b7b;
 `;
 
 const RankListBody = styled.div`
@@ -143,6 +146,12 @@ const RankListBody = styled.div`
       font-weight: bold;
     }
   }
+`;
+
+const GuildMaster = styled.div`
+  margin-bottom: 10px;
+  font-weight: bold;
+  font-size: 18px;
 `;
 
 const GuildMsg = styled.div`

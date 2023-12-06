@@ -8,4 +8,6 @@ export default function RecommandClass() {
   );
 }
 
-const Container = styled.div``;
+const Container = styled.div`
+  width: 1100px;
+`;
