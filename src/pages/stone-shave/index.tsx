@@ -1,22 +1,47 @@
 import styled from "styled-components";
 import { useState } from "react";
+import { EditIcon } from "@/components/common/icons";
 
 // style
 import { ComponentLabel } from "@/components/common/components";
 
+// type
+import { FormEvent } from "@/types";
+
 export default function StoneShave() {
-  type SlotCheck = boolean | 0;
+  type SlotCheck = boolean | number; // 0: none 1: success 2: fail
   type SlotArray = SlotCheck[];
   const slotArray = Array.from({ length: 10 }).fill(0) as SlotArray;
   const slotInit = [slotArray, slotArray, slotArray];
   const slotNameInit = ["각인1", "각인2", "디버프"];
 
   const [slotName, setSlotName] = useState(slotNameInit);
+  const [nameEditIndex, setNameEditIndex] = useState(-1);
   const [engravingSlots, setEngravingSlots] = useState(slotInit);
 
-  const test = () => {
-    setSlotName(slotNameInit);
-    setEngravingSlots(slotInit);
+  const initShaving = () => {
+    if (window.confirm("초기화 할까요??")) {
+      setSlotName(slotNameInit);
+      setNameEditIndex(-1);
+      setEngravingSlots(slotInit);
+    }
+  };
+
+  const closeNameEditer = () => {
+    setNameEditIndex(-1);
+  };
+
+  const openNameEditer = (index: number) => {
+    setNameEditIndex(index);
+  };
+
+  const editSlotName = (e: FormEvent) => {
+    e.preventDefault();
+    const value = e.target[0].value;
+    let prevSlotName = slotName;
+    prevSlotName[nameEditIndex] = value;
+    setSlotName(prevSlotName);
+    closeNameEditer();
   };
 
   return (
@@ -24,13 +49,36 @@ export default function StoneShave() {
       <ComponentLabel>어빌리티 스톤 세공 시뮬레이터</ComponentLabel>
       <ShavingBox>
         <Recovery>
-          <button onClick={test}>초기화</button>
+          <button onClick={initShaving}>초기화</button>
           <button>되돌리기</button>
         </Recovery>
         <Content>
           <BoxHead>
             {slotName.map((name, index) => {
-              return <NameSlot key={index}>{name}</NameSlot>;
+              const isDebuff = index === 2 ? true : false;
+              const isEditable = index === nameEditIndex ? true : false;
+              return (
+                <NameSlot key={index}>
+                  {isEditable ? (
+                    <EditForm onSubmit={e => editSlotName(e)}>
+                      <input type="text" defaultValue={name} maxLength={10} />
+                      <div>
+                        <button type="submit">수정</button>
+                        <button onClick={closeNameEditer}>취소</button>
+                      </div>
+                    </EditForm>
+                  ) : (
+                    <>
+                      <span style={isDebuff ? { color: "red" } : {}}>
+                        {name}
+                      </span>
+                      <EditBtn onClick={() => openNameEditer(index)}>
+                        {isDebuff || <EditIcon />}
+                      </EditBtn>
+                    </>
+                  )}
+                </NameSlot>
+              );
             })}
           </BoxHead>
           <BoxBody>
@@ -74,24 +122,68 @@ const Recovery = styled.div`
 
 const Content = styled.div`
   display: flex;
+  border-radius: 20px;
+  border: 2px solid #7b7b7b;
+  background-color: #15181d;
 `;
 
-const BoxHead = styled.div``;
+const BoxHead = styled.div`
+  font-size: 16px;
+`;
+
 const NameSlot = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
 
-  width: 50px;
-  height: 50px;
-  background-color: blue;
+  width: 200px;
+  height: 100px;
+  border-right: 2px solid #7b7b7b;
+
+  font-weight: bold;
 `;
+
+const EditForm = styled.form`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  width: 200px;
+
+  & input {
+    width: 195px;
+    height: 25px;
+    border: none;
+    border: 1px solid #7b7b7b;
+    border-radius: 5px;
+    background-color: #15181d;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+  }
+  & button {
+    margin-left: 7px;
+    color: white;
+    font-weight: bold;
+    background: none;
+    border: none;
+
+    cursor: pointer;
+  }
+`;
+
+const EditBtn = styled.span`
+  margin-left: 5px;
+  & svg {
+    cursor: pointer;
+  }
+`;
+
 const BoxBody = styled.div``;
 
 const EngravingSlot = styled.div`
   display: flex;
   align-items: center;
-  height: 50px;
+  height: 100px;
 `;
 const CheckList = styled.div``;
 
