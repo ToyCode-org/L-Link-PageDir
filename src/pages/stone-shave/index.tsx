@@ -6,35 +6,49 @@ import { EditIcon } from "@/components/common/icons";
 import { ComponentLabel } from "@/components/common/components";
 
 // type
-import { FormEvent } from "@/types";
+import { FormEvent, SelectEvent } from "@/types";
 
 export default function StoneShave() {
   type SlotCheck = boolean | number; // 0: none 1: success 2: fail
   type SlotArray = SlotCheck[];
+  type SumulatorInfo = {
+    nameEditIndex: number;
+    recommanIndex: number;
+    successPercentage: number;
+    engravingGoal: string;
+  };
 
   const slotArray = Array.from({ length: 10 }).fill(0) as SlotArray;
   const slotInit = [slotArray, slotArray, slotArray];
   const slotNameInit = ["각인1", "각인2", "디버프"];
+  const simulatorInit: SumulatorInfo = {
+    nameEditIndex: -1,
+    recommanIndex: -1,
+    successPercentage: 75,
+    engravingGoal: "77",
+  };
 
   const [slotName, setSlotName] = useState(slotNameInit);
-  const [nameEditIndex, setNameEditIndex] = useState(-1);
   const [engravingSlots, setEngravingSlots] = useState(slotInit);
-  const [recommanIndex, setRecommanIndex] = useState(-1);
+  const [
+    { nameEditIndex, recommanIndex, successPercentage, engravingGoal },
+    setSimulator,
+  ] = useState<SumulatorInfo>(simulatorInit);
 
   const initShaving = () => {
     if (window.confirm("초기화 할까요??")) {
       setSlotName(slotNameInit);
-      setNameEditIndex(-1);
       setEngravingSlots(slotInit);
+      setSimulator(simulatorInit);
     }
   };
 
   const closeNameEditer = () => {
-    setNameEditIndex(-1);
+    setSimulator(prev => ({ ...prev, nameEditIndex: -1 }));
   };
 
   const openNameEditer = (index: number) => {
-    setNameEditIndex(index);
+    setSimulator(prev => ({ ...prev, nameEditIndex: index }));
   };
 
   const editSlotName = (e: FormEvent) => {
@@ -46,29 +60,42 @@ export default function StoneShave() {
     closeNameEditer();
   };
 
-  const test = () => {
-    setRecommanIndex(1);
+  const selectEngravingGoal = (e: SelectEvent) => {
+    const value = e.target.value;
+    setSimulator(prev => ({ ...prev, engravingGoal: value }));
   };
 
   return (
     <Container>
       <ComponentLabel>어빌리티 스톤 세공 시뮬레이터</ComponentLabel>
       <ShavingBox>
-        <Recovery onClick={test}>
+        <Recovery>
           <button className="init" onClick={initShaving}>
             초기화
           </button>
           <button>되돌리기</button>
         </Recovery>
+        <ShavingInfo>
+          <div>
+            <span>목표 각인</span>
+            <select onChange={selectEngravingGoal}>
+              <option value="77">7/7</option>
+              <option value="97">9/7</option>
+              <option value="79">7/9</option>
+            </select>
+          </div>
+          <Percentage>성공률 {successPercentage}%</Percentage>
+        </ShavingInfo>
         <Content>
           <BoxHead>
             {slotName.map((name, index) => {
               const isDebuff = index === 2 ? true : false;
               const isEditable = index === nameEditIndex ? true : false;
+              const goalPoint = index !== 2 ? engravingGoal[index] : null;
               return (
                 <NameSlot key={index}>
                   {isEditable ? (
-                    <EditForm onSubmit={e => editSlotName(e)}>
+                    <EditForm onSubmit={editSlotName}>
                       <input type="text" defaultValue={name} maxLength={10} />
                       <div>
                         <button type="submit">수정</button>
@@ -78,6 +105,9 @@ export default function StoneShave() {
                   ) : (
                     <>
                       <span style={isDebuff ? { color: "red" } : {}}>
+                        {goalPoint ? (
+                          <GoalPoint>{`(${goalPoint})`}</GoalPoint>
+                        ) : null}
                         {name}
                       </span>
                       <EditBtn onClick={() => openNameEditer(index)}>
@@ -117,12 +147,6 @@ export default function StoneShave() {
             })}
           </BoxBody>
           <BoxFooter>
-            {/* {slotName.map((value, index) => {
-              value = "★ 추천";
-              return (
-                <span key={index}>{recommanIndex === index ? value : "-"}</span>
-              );
-            })} */}
             <span>{recommanIndex === 0 ? "★ 추천" : "-"}</span>
             <span>{recommanIndex === 1 ? "★ 추천" : "-"}</span>
             <span>{recommanIndex === 2 ? "★ 추천" : "-"}</span>
@@ -164,6 +188,35 @@ const Recovery = styled.div`
   & .init {
     background: #cf3f3f;
   }
+`;
+
+const ShavingInfo = styled.div`
+  display: flex;
+  justify-content: space-between;
+
+  font-size: 18px;
+  font-weight: bold;
+
+  & select {
+    margin-left: 10px;
+    width: 70px;
+    height: 30px;
+    font-size: 17px;
+    font-weight: bold;
+    text-align: center;
+    border: 2px solid #7b7b7b;
+    border-radius: 10px;
+    background-color: black;
+    color: white;
+    & option {
+      text-align: center;
+    }
+  }
+`;
+
+const Percentage = styled.div`
+  margin: 0 10px 20px 0;
+  text-align: right;
 `;
 
 const Content = styled.div`
@@ -220,6 +273,11 @@ const EditForm = styled.form`
       background: white;
     }
   }
+`;
+
+const GoalPoint = styled.span`
+  margin-right: 5px;
+  font-size: 14px;
 `;
 
 const EditBtn = styled.span`
