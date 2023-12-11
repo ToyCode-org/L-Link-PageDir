@@ -11,6 +11,7 @@ import { FormEvent } from "@/types";
 export default function StoneShave() {
   type SlotCheck = boolean | number; // 0: none 1: success 2: fail
   type SlotArray = SlotCheck[];
+
   const slotArray = Array.from({ length: 10 }).fill(0) as SlotArray;
   const slotInit = [slotArray, slotArray, slotArray];
   const slotNameInit = ["각인1", "각인2", "디버프"];
@@ -18,6 +19,7 @@ export default function StoneShave() {
   const [slotName, setSlotName] = useState(slotNameInit);
   const [nameEditIndex, setNameEditIndex] = useState(-1);
   const [engravingSlots, setEngravingSlots] = useState(slotInit);
+  const [recommanIndex, setRecommanIndex] = useState(-1);
 
   const initShaving = () => {
     if (window.confirm("초기화 할까요??")) {
@@ -44,12 +46,18 @@ export default function StoneShave() {
     closeNameEditer();
   };
 
+  const test = () => {
+    setRecommanIndex(1);
+  };
+
   return (
     <Container>
       <ComponentLabel>어빌리티 스톤 세공 시뮬레이터</ComponentLabel>
       <ShavingBox>
-        <Recovery>
-          <button onClick={initShaving}>초기화</button>
+        <Recovery onClick={test}>
+          <button className="init" onClick={initShaving}>
+            초기화
+          </button>
           <button>되돌리기</button>
         </Recovery>
         <Content>
@@ -83,20 +91,41 @@ export default function StoneShave() {
           </BoxHead>
           <BoxBody>
             {engravingSlots.map((slot, index) => {
+              const isDebuff = index === 2;
               return (
-                <EngravingSlot key={index}>
-                  {slot.map((value, idx) => {
-                    return <CheckList key={idx}>{value}</CheckList>;
-                  })}
-                </EngravingSlot>
+                <EngravingLIne key={index}>
+                  <EngravingSlot
+                    style={isDebuff ? { color: "red" } : { color: "blue" }}
+                  >
+                    {slot.map((value, idx) => {
+                      const slotIcon = value === 0 ? "◇" : "◆";
+                      const isFail = value === 2;
+                      const IconColor = isFail ? { color: "black" } : {};
+                      return (
+                        <CheckList key={idx} style={IconColor}>
+                          {slotIcon}
+                        </CheckList>
+                      );
+                    })}
+                  </EngravingSlot>
+                  <ControlTab>
+                    <button>성공</button>
+                    <button className="fail">실패</button>
+                  </ControlTab>
+                </EngravingLIne>
               );
             })}
           </BoxBody>
           <BoxFooter>
-            <ControlTab>
-              <button>성공</button>
-              <button>실패</button>
-            </ControlTab>
+            {/* {slotName.map((value, index) => {
+              value = "★ 추천";
+              return (
+                <span key={index}>{recommanIndex === index ? value : "-"}</span>
+              );
+            })} */}
+            <span>{recommanIndex === 0 ? "★ 추천" : "-"}</span>
+            <span>{recommanIndex === 1 ? "★ 추천" : "-"}</span>
+            <span>{recommanIndex === 2 ? "★ 추천" : "-"}</span>
           </BoxFooter>
         </Content>
       </ShavingBox>
@@ -118,6 +147,23 @@ const Recovery = styled.div`
   margin-bottom: 20px;
   display: flex;
   justify-content: space-between;
+
+  & button {
+    height: 35px;
+    color: white;
+    font-weight: bold;
+    border: none;
+    border-radius: 10px;
+    background: #4c4cd5;
+
+    cursor: pointer;
+    &:hover {
+      filter: brightness(0.8);
+    }
+  }
+  & .init {
+    background: #cf3f3f;
+  }
 `;
 
 const Content = styled.div`
@@ -167,7 +213,12 @@ const EditForm = styled.form`
     background: none;
     border: none;
 
+    transition: 0.2s;
     cursor: pointer;
+    &:hover {
+      color: black;
+      background: white;
+    }
   }
 `;
 
@@ -180,13 +231,45 @@ const EditBtn = styled.span`
 
 const BoxBody = styled.div``;
 
+const EngravingLIne = styled.div`
+  display: flex;
+`;
+
 const EngravingSlot = styled.div`
   display: flex;
   align-items: center;
   height: 100px;
 `;
-const CheckList = styled.div``;
+const CheckList = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 50px;
+  height: 100px;
+  border: 1px solid #7b7b7b;
+`;
 
-const BoxFooter = styled.div``;
+const ControlTab = styled.div`
+  display: flex;
+  & button {
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    background: #4c4cd5;
+    &:hover {
+      filter: brightness(0.8);
+    }
+  }
+  & .fail {
+    background: #cf3f3f;
+  }
+`;
 
-const ControlTab = styled.div``;
+const BoxFooter = styled.div`
+  display: flex;
+  flex-direction: column;
+  & span {
+    height: 100px;
+    line-height: 100px;
+  }
+`;
