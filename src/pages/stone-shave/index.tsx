@@ -43,21 +43,24 @@ export default function StoneShave() {
     }
   };
 
-  const closeNameEditer = () => {
-    setSimulator(prev => ({ ...prev, nameEditIndex: -1 }));
-  };
+  // const undoShaving =()=>{
 
-  const openNameEditer = (index: number) => {
+  // }
+
+  // engraving name editer
+  const openNameEditor = (index: number) => {
     setSimulator(prev => ({ ...prev, nameEditIndex: index }));
   };
-
+  const closeNameEditor = () => {
+    setSimulator(prev => ({ ...prev, nameEditIndex: -1 }));
+  };
   const editSlotName = (e: FormEvent) => {
     e.preventDefault();
     const value = e.target[0].value;
     let prevSlotName = slotName;
     prevSlotName[nameEditIndex] = value;
     setSlotName(prevSlotName);
-    closeNameEditer();
+    closeNameEditor();
   };
 
   const selectEngravingGoal = (e: SelectEvent) => {
@@ -99,7 +102,7 @@ export default function StoneShave() {
                       <input type="text" defaultValue={name} maxLength={10} />
                       <div>
                         <button type="submit">수정</button>
-                        <button onClick={closeNameEditer}>취소</button>
+                        <button onClick={closeNameEditor}>취소</button>
                       </div>
                     </EditForm>
                   ) : (
@@ -110,7 +113,7 @@ export default function StoneShave() {
                         ) : null}
                         {name}
                       </span>
-                      <EditBtn onClick={() => openNameEditer(index)}>
+                      <EditBtn onClick={() => openNameEditor(index)}>
                         {isDebuff || <EditIcon />}
                       </EditBtn>
                     </>
