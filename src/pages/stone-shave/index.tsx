@@ -6,7 +6,7 @@ import { EditIcon } from "@/components/common/icons";
 import { ComponentLabel } from "@/components/common/components";
 
 // type
-import { FormEvent, SelectEvent } from "@/types";
+import { FormEvent, SelectEvent, BtnEvent } from "@/types";
 
 export default function StoneShave() {
   type SlotCheck = boolean | number; // 0: none 1: success 2: fail
@@ -19,11 +19,11 @@ export default function StoneShave() {
   };
 
   const slotArray = Array.from({ length: 10 }).fill(0) as SlotArray;
-  const slotInit = [slotArray, slotArray, slotArray];
+  const slotInit = [[...slotArray], [...slotArray], [...slotArray]];
   const slotNameInit = ["각인1", "각인2", "디버프"];
   const simulatorInit: SumulatorInfo = {
     nameEditIndex: -1,
-    recommanIndex: -1,
+    recommanIndex: 0,
     successPercentage: 75,
     engravingGoal: "77",
   };
@@ -35,6 +35,14 @@ export default function StoneShave() {
     setSimulator,
   ] = useState<SumulatorInfo>(simulatorInit);
 
+  const [shavingStack, setShavingStack] = useState<string[]>([]);
+
+  const selectEngravingGoal = (e: SelectEvent) => {
+    const value = e.target.value;
+    setSimulator(prev => ({ ...prev, engravingGoal: value }));
+  };
+
+  // shaving process
   const initShaving = () => {
     if (window.confirm("초기화 할까요??")) {
       setSlotName(slotNameInit);
@@ -43,9 +51,31 @@ export default function StoneShave() {
     }
   };
 
-  // const undoShaving =()=>{
+  const undoShaving = () => {
+    if (shavingStack.length !== 0) {
+      let getStacks = [...shavingStack];
+      let pop = getStacks.pop() as string;
+      const [index1, index2] = pop.split("/").map(Number);
 
-  // }
+      setEngravingSlots(prev => {
+        prev[index1][index2] = 0;
+        return prev;
+      });
+      setShavingStack(getStacks);
+    }
+  };
+
+  const tryShaving = (e: BtnEvent, index: number) => {
+    const isSuccess = e.target.className === "success" ? true : false;
+    let allSlots = engravingSlots;
+    let thisEngraving = allSlots[index];
+
+    const slotIndex = thisEngraving.indexOf(0);
+    thisEngraving[slotIndex] = isSuccess ? 1 : 2;
+    allSlots[index] = thisEngraving;
+    setEngravingSlots([...allSlots]);
+    setShavingStack(prev => [...prev, `${index}/${slotIndex}`]);
+  };
 
   // engraving name editer
   const openNameEditor = (index: number) => {
@@ -63,11 +93,6 @@ export default function StoneShave() {
     closeNameEditor();
   };
 
-  const selectEngravingGoal = (e: SelectEvent) => {
-    const value = e.target.value;
-    setSimulator(prev => ({ ...prev, engravingGoal: value }));
-  };
-
   return (
     <Container>
       <ComponentLabel>어빌리티 스톤 세공 시뮬레이터</ComponentLabel>
@@ -76,7 +101,7 @@ export default function StoneShave() {
           <button className="init" onClick={initShaving}>
             초기화
           </button>
-          <button>되돌리기</button>
+          <button onClick={undoShaving}>되돌리기</button>
         </Recovery>
         <ShavingInfo>
           <div>
@@ -107,7 +132,11 @@ export default function StoneShave() {
                     </EditForm>
                   ) : (
                     <>
-                      <span style={isDebuff ? { color: "red" } : {}}>
+                      <span
+                        style={
+                          isDebuff ? { color: "red" } : { color: "orange" }
+                        }
+                      >
                         {goalPoint ? (
                           <GoalPoint>{`(${goalPoint})`}</GoalPoint>
                         ) : null}
@@ -128,7 +157,7 @@ export default function StoneShave() {
               return (
                 <EngravingLIne key={index}>
                   <EngravingSlot
-                    style={isDebuff ? { color: "red" } : { color: "blue" }}
+                    style={isDebuff ? { color: "red" } : { color: "#0093ff" }}
                   >
                     {slot.map((value, idx) => {
                       const slotIcon = value === 0 ? "◇" : "◆";
@@ -142,8 +171,22 @@ export default function StoneShave() {
                     })}
                   </EngravingSlot>
                   <ControlTab>
-                    <button>성공</button>
-                    <button className="fail">실패</button>
+                    <button
+                      className="success"
+                      onClick={e => {
+                        tryShaving(e, index);
+                      }}
+                    >
+                      성공
+                    </button>
+                    <button
+                      className="fail"
+                      onClick={e => {
+                        tryShaving(e, index);
+                      }}
+                    >
+                      실패
+                    </button>
                   </ControlTab>
                 </EngravingLIne>
               );

@@ -1,5 +1,7 @@
 // event
 export type FormEvent = FormEvent<HTMLFormElement>;
+export type SelectEvent = FormEvent<HTMLSelectElement>;
+export type BtnEvent = MouseEvent<HTMLButtonElement, MouseEvent>;
 
 /////////////////////////
 // thrid party API type
