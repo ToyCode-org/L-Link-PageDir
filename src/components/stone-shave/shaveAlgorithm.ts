@@ -50,11 +50,11 @@ export const recommandAlgorithm = ({
     secondPriorityTryCount -
     (secondPriorityGoal - secondPrioritySuccessCount);
 
-  // quit recomman ##
+  // quit recommand ##
   if (priorityAcceptableFailur < 0 || secondPriorityAcceptableFailur < 0) {
     return -1;
   }
-  // quit recomman ## Acceptable failure
+  // quit recommand ##
 
   if (successPercentage >= 65) {
     if (priorityTryCount !== 10) {
