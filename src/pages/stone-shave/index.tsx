@@ -1,6 +1,7 @@
 import styled from "styled-components";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { EditIcon } from "@/components/common/icons";
+import { recommandAlgorithm } from "@/components/stone-shave/shaveAlgorithm";
 
 // style
 import { ComponentLabel } from "@/components/common/components";
@@ -9,7 +10,7 @@ import { ComponentLabel } from "@/components/common/components";
 import { FormEvent, SelectEvent, BtnEvent } from "@/types";
 
 export default function StoneShave() {
-  type SlotCheck = boolean | number; // 0: none 1: success 2: fail
+  type SlotCheck = number; // 0: none 1: success 2: fail
   type SlotArray = SlotCheck[];
   type SumulatorInfo = {
     nameEditIndex: number;
@@ -50,7 +51,6 @@ export default function StoneShave() {
       setSimulator(simulatorInit);
     }
   };
-
   const undoShaving = () => {
     if (shavingStack.length !== 0) {
       let getStacks = [...shavingStack];
@@ -73,6 +73,14 @@ export default function StoneShave() {
     const slotIndex = thisEngraving.indexOf(0);
     thisEngraving[slotIndex] = isSuccess ? 1 : 2;
     allSlots[index] = thisEngraving;
+
+    let percentage = successPercentage;
+    if (isSuccess) {
+      percentage = percentage !== 25 ? percentage - 10 : 25;
+    } else {
+      percentage = percentage !== 75 ? percentage + 10 : 75;
+    }
+    setSimulator(prev => ({ ...prev, successPercentage: percentage }));
     setEngravingSlots([...allSlots]);
     setShavingStack(prev => [...prev, `${index}/${slotIndex}`]);
   };
@@ -92,6 +100,16 @@ export default function StoneShave() {
     setSlotName(prevSlotName);
     closeNameEditor();
   };
+  useEffect(() => {
+    setSimulator(prev => ({
+      ...prev,
+      recommanIndex: recommandAlgorithm({
+        engravingSlots,
+        successPercentage,
+        engravingGoal,
+      }),
+    }));
+  }, [shavingStack.length, engravingGoal]);
 
   return (
     <Container>
@@ -106,7 +124,7 @@ export default function StoneShave() {
         <ShavingInfo>
           <div>
             <span>목표 각인</span>
-            <select onChange={selectEngravingGoal}>
+            <select onChange={selectEngravingGoal} value={engravingGoal}>
               <option value="77">7/7</option>
               <option value="97">9/7</option>
               <option value="79">7/9</option>

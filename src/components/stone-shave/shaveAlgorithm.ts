@@ -1,5 +1,5 @@
 type Props = {
-  engravingSlots: [][];
+  engravingSlots: number[][];
   successPercentage: number;
   engravingGoal: string;
 };
@@ -42,6 +42,20 @@ export const recommandAlgorithm = ({
 
   const priorityGoal = first > second ? first : second;
   const secondPriorityGoal = first < second ? first : second;
+
+  const priorityAcceptableFailur =
+    10 - priorityTryCount - (priorityGoal - prioritySuccessCount);
+  const secondPriorityAcceptableFailur =
+    10 -
+    secondPriorityTryCount -
+    (secondPriorityGoal - secondPrioritySuccessCount);
+
+  // quit recomman ##
+  if (priorityAcceptableFailur < 0 || secondPriorityAcceptableFailur < 0) {
+    return -1;
+  }
+  // quit recomman ## Acceptable failure
+
   if (successPercentage >= 65) {
     if (priorityTryCount !== 10) {
       if (prioritySuccessCount < priorityGoal) {
@@ -53,28 +67,20 @@ export const recommandAlgorithm = ({
   }
   if (successPercentage === 55) {
     if (secondPriorityTryCount !== 10) {
-      if (secondPrioritySuccessCount < secondPriorityGoal) {
-        recommandIndex = secondPriority;
-      } else if (
-        secondPrioritySuccessCount >= secondPriorityGoal &&
-        priorityTryCount < 10
-      ) {
-        recommandIndex = priority;
-      }
+      recommandIndex =
+        priorityAcceptableFailur > secondPriorityAcceptableFailur
+          ? priority
+          : secondPriority;
     }
   }
   if (successPercentage <= 45) {
     if (debuffTryCount !== 10) {
       recommandIndex = debuff;
     } else {
-      if (
-        10 - secondPriorityTryCount + secondPrioritySuccessCount >=
-        secondPriorityGoal
-      ) {
-        recommandIndex = secondPriority;
-      } else if (10 - priorityTryCount + prioritySuccessCount >= priorityGoal) {
-        recommandIndex = priority;
-      }
+      recommandIndex =
+        priorityAcceptableFailur > secondPriorityAcceptableFailur
+          ? priority
+          : secondPriority;
     }
   }
 
