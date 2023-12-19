@@ -1,3 +1,2 @@
 User-agent: *
-Disallow: /your-javascript-url
-Disallow: /your-css-url
+Allow: /
