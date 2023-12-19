@@ -46,6 +46,7 @@ export const AllCharacters = ({ characters, initIndexNumber }: Props) => {
                   CharacterLevel,
                   CharacterClassName,
                 } = subCharacters;
+
                 return (
                   <CharacterCard
                     key={index}
@@ -59,6 +60,9 @@ export const AllCharacters = ({ characters, initIndexNumber }: Props) => {
                         width={50}
                         height={50}
                         alt="직업이미지"
+                        onError={(e: any) =>
+                          (e.target.src = `${getPublicImage("로아RPG로고")}`)
+                        }
                       />
                       <CardInfo>
                         <InfoBody>
