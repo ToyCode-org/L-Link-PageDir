@@ -51,3 +51,7 @@
 ## 사이트 구성
 
 ![Alt text](<public/image/로아링크 아키텍처.png>)
+
+## 배포환경
+
+<video src="%EB%A1%9C%EC%95%84%EB%A7%81%ED%81%AC%20%EC%8B%9C%EC%97%B0%EC%98%81%EC%83%81.mp4" controls title="Title"></video>
