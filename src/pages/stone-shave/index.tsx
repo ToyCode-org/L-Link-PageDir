@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { useState, useEffect } from "react";
 import { EditIcon } from "@/components/common/icons";
 import { recommandAlgorithm } from "@/components/stone-shave/shaveAlgorithm";
+import { Meta } from "@/components/stone-shave/meta";
 
 // style
 import { ComponentLabel } from "@/components/common/components";
@@ -136,112 +137,115 @@ export default function StoneShave() {
   }, [shavingStack.length, engravingGoal]);
 
   return (
-    <Container>
-      <ComponentLabel>어빌리티 스톤 세공 시뮬레이터</ComponentLabel>
-      <ShavingBox>
-        <Recovery>
-          <button className="init" onClick={initShaving}>
-            초기화
-          </button>
-          <button onClick={undoShaving}>되돌리기</button>
-        </Recovery>
-        <ShavingInfo>
-          <div>
-            <span>목표 각인</span>
-            <select onChange={selectEngravingGoal} value={engravingGoal}>
-              <option value="77">7/7</option>
-              <option value="97">9/7</option>
-              <option value="79">7/9</option>
-            </select>
-          </div>
-          <Percentage>성공률 {successPercentage}%</Percentage>
-        </ShavingInfo>
-        <Content>
-          <BoxHead>
-            {slotName.map((name, index) => {
-              const isDebuff = index === 2 ? true : false;
-              const isEditable = index === nameEditIndex ? true : false;
-              const goalPoint = index !== 2 ? engravingGoal[index] : null;
-              return (
-                <NameSlot key={index}>
-                  {isEditable ? (
-                    <EditForm onSubmit={editSlotName}>
-                      <input type="text" defaultValue={name} maxLength={10} />
-                      <div>
-                        <button type="submit">수정</button>
-                        <button onClick={closeNameEditor}>취소</button>
-                      </div>
-                    </EditForm>
-                  ) : (
-                    <>
-                      <span
-                        style={
-                          isDebuff ? { color: "red" } : { color: "orange" }
-                        }
+    <>
+      <Meta />
+      <Container>
+        <ComponentLabel>어빌리티 스톤 세공 시뮬레이터</ComponentLabel>
+        <ShavingBox>
+          <Recovery>
+            <button className="init" onClick={initShaving}>
+              초기화
+            </button>
+            <button onClick={undoShaving}>되돌리기</button>
+          </Recovery>
+          <ShavingInfo>
+            <div>
+              <span>목표 각인</span>
+              <select onChange={selectEngravingGoal} value={engravingGoal}>
+                <option value="77">7/7</option>
+                <option value="97">9/7</option>
+                <option value="79">7/9</option>
+              </select>
+            </div>
+            <Percentage>성공률 {successPercentage}%</Percentage>
+          </ShavingInfo>
+          <Content>
+            <BoxHead>
+              {slotName.map((name, index) => {
+                const isDebuff = index === 2 ? true : false;
+                const isEditable = index === nameEditIndex ? true : false;
+                const goalPoint = index !== 2 ? engravingGoal[index] : null;
+                return (
+                  <NameSlot key={index}>
+                    {isEditable ? (
+                      <EditForm onSubmit={editSlotName}>
+                        <input type="text" defaultValue={name} maxLength={10} />
+                        <div>
+                          <button type="submit">수정</button>
+                          <button onClick={closeNameEditor}>취소</button>
+                        </div>
+                      </EditForm>
+                    ) : (
+                      <>
+                        <span
+                          style={
+                            isDebuff ? { color: "red" } : { color: "orange" }
+                          }
+                        >
+                          {goalPoint ? (
+                            <GoalPoint>{`(${goalPoint})`}</GoalPoint>
+                          ) : null}
+                          {name}
+                        </span>
+                        <EditBtn onClick={() => openNameEditor(index)}>
+                          {isDebuff || <EditIcon />}
+                        </EditBtn>
+                      </>
+                    )}
+                  </NameSlot>
+                );
+              })}
+            </BoxHead>
+            <BoxBody>
+              {engravingSlots.map((slot, index) => {
+                const isDebuff = index === 2;
+                return (
+                  <EngravingLIne key={index}>
+                    <EngravingSlot
+                      style={isDebuff ? { color: "red" } : { color: "#0093ff" }}
+                    >
+                      {slot.map((value, idx) => {
+                        const slotIcon = value === 0 ? "◇" : "◆";
+                        const isFail = value === 2;
+                        const IconColor = isFail ? { color: "black" } : {};
+                        return (
+                          <CheckList key={idx} style={IconColor}>
+                            {slotIcon}
+                          </CheckList>
+                        );
+                      })}
+                    </EngravingSlot>
+                    <ControlTab>
+                      <button
+                        className="success"
+                        onClick={e => {
+                          tryShaving(e, index);
+                        }}
                       >
-                        {goalPoint ? (
-                          <GoalPoint>{`(${goalPoint})`}</GoalPoint>
-                        ) : null}
-                        {name}
-                      </span>
-                      <EditBtn onClick={() => openNameEditor(index)}>
-                        {isDebuff || <EditIcon />}
-                      </EditBtn>
-                    </>
-                  )}
-                </NameSlot>
-              );
-            })}
-          </BoxHead>
-          <BoxBody>
-            {engravingSlots.map((slot, index) => {
-              const isDebuff = index === 2;
-              return (
-                <EngravingLIne key={index}>
-                  <EngravingSlot
-                    style={isDebuff ? { color: "red" } : { color: "#0093ff" }}
-                  >
-                    {slot.map((value, idx) => {
-                      const slotIcon = value === 0 ? "◇" : "◆";
-                      const isFail = value === 2;
-                      const IconColor = isFail ? { color: "black" } : {};
-                      return (
-                        <CheckList key={idx} style={IconColor}>
-                          {slotIcon}
-                        </CheckList>
-                      );
-                    })}
-                  </EngravingSlot>
-                  <ControlTab>
-                    <button
-                      className="success"
-                      onClick={e => {
-                        tryShaving(e, index);
-                      }}
-                    >
-                      성공
-                    </button>
-                    <button
-                      className="fail"
-                      onClick={e => {
-                        tryShaving(e, index);
-                      }}
-                    >
-                      실패
-                    </button>
-                  </ControlTab>
-                </EngravingLIne>
-              );
-            })}
-          </BoxBody>
-          <BoxFooter>
-            <span>{recommanIndex === 0 ? "★ 추천" : "-"}</span>
-            <span>{recommanIndex === 1 ? "★ 추천" : "-"}</span>
-            <span>{recommanIndex === 2 ? "★ 추천" : "-"}</span>
-          </BoxFooter>
-        </Content>
-      </ShavingBox>
-    </Container>
+                        성공
+                      </button>
+                      <button
+                        className="fail"
+                        onClick={e => {
+                          tryShaving(e, index);
+                        }}
+                      >
+                        실패
+                      </button>
+                    </ControlTab>
+                  </EngravingLIne>
+                );
+              })}
+            </BoxBody>
+            <BoxFooter>
+              <span>{recommanIndex === 0 ? "★ 추천" : "-"}</span>
+              <span>{recommanIndex === 1 ? "★ 추천" : "-"}</span>
+              <span>{recommanIndex === 2 ? "★ 추천" : "-"}</span>
+            </BoxFooter>
+          </Content>
+        </ShavingBox>
+      </Container>
+    </>
   );
 }
 
