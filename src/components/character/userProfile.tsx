@@ -131,6 +131,7 @@ const CharacterInfo = styled.ul`
       border-radius: 5px;
     }
   }
+  z-index: 1;
 `;
 
 const UserCollections = styled.div`
