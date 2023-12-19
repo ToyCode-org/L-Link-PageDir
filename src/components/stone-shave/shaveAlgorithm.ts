@@ -86,7 +86,3 @@ export const recommandAlgorithm = ({
 
   return recommandIndex;
 };
-
-//### 65↑ 1st / 55 2nd / 45↓ 3rd
-// if 1st=goal => 55↑ 2nd
-// if 3rd full => 45↓ 2nd

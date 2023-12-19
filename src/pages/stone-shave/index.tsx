@@ -18,6 +18,10 @@ export default function StoneShave() {
     successPercentage: number;
     engravingGoal: string;
   };
+  type ShavingStacks = {
+    shavingStack: string[];
+    percentageStack: number[];
+  };
 
   const slotArray = Array.from({ length: 10 }).fill(0) as SlotArray;
   const slotInit = [[...slotArray], [...slotArray], [...slotArray]];
@@ -28,6 +32,10 @@ export default function StoneShave() {
     successPercentage: 75,
     engravingGoal: "77",
   };
+  const stackInit: ShavingStacks = {
+    shavingStack: [],
+    percentageStack: [],
+  };
 
   const [slotName, setSlotName] = useState(slotNameInit);
   const [engravingSlots, setEngravingSlots] = useState(slotInit);
@@ -36,7 +44,8 @@ export default function StoneShave() {
     setSimulator,
   ] = useState<SumulatorInfo>(simulatorInit);
 
-  const [shavingStack, setShavingStack] = useState<string[]>([]);
+  const [{ shavingStack, percentageStack }, setShavingStack] =
+    useState(stackInit);
 
   const selectEngravingGoal = (e: SelectEvent) => {
     const value = e.target.value;
@@ -49,19 +58,29 @@ export default function StoneShave() {
       setSlotName(slotNameInit);
       setEngravingSlots(slotInit);
       setSimulator(simulatorInit);
+      setShavingStack(stackInit);
     }
   };
   const undoShaving = () => {
     if (shavingStack.length !== 0) {
-      let getStacks = [...shavingStack];
-      let pop = getStacks.pop() as string;
-      const [index1, index2] = pop.split("/").map(Number);
+      let getShavingStacks = [...shavingStack];
+      let shavingPop = getShavingStacks.pop() as string;
+      const [index1, index2] = shavingPop.split("/").map(Number);
+
+      let getPercentageStacks = [...percentageStack];
+      let percentagePop = getPercentageStacks.pop() as number;
 
       setEngravingSlots(prev => {
         prev[index1][index2] = 0;
         return prev;
       });
-      setShavingStack(getStacks);
+
+      setSimulator(prev => ({ ...prev, successPercentage: percentagePop }));
+      setShavingStack(prev => ({
+        ...prev,
+        shavingStack: getShavingStacks,
+        percentageStack: getPercentageStacks,
+      }));
     }
   };
 
@@ -71,6 +90,7 @@ export default function StoneShave() {
     let thisEngraving = allSlots[index];
 
     const slotIndex = thisEngraving.indexOf(0);
+    if (slotIndex === -1) return;
     thisEngraving[slotIndex] = isSuccess ? 1 : 2;
     allSlots[index] = thisEngraving;
 
@@ -82,7 +102,11 @@ export default function StoneShave() {
     }
     setSimulator(prev => ({ ...prev, successPercentage: percentage }));
     setEngravingSlots([...allSlots]);
-    setShavingStack(prev => [...prev, `${index}/${slotIndex}`]);
+    setShavingStack(prev => ({
+      ...prev,
+      shavingStack: [...prev.shavingStack, `${index}/${slotIndex}`],
+      percentageStack: [...prev.percentageStack, successPercentage],
+    }));
   };
 
   // engraving name editer
