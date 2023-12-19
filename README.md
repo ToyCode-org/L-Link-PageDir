@@ -1,40 +1,53 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# 로아링크
 
-## Getting Started
+[사이트 바로가기]()
 
-First, run the development server:
+23.11.03 -
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+<br><br>
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## FE 💻
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+### Framework & language 🖋
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+<div>
+<img src="https://img.shields.io/badge/Next.js-000000?style=flat&logo=Next.js&logoColor=white" />
+  <img src="https://img.shields.io/badge/TypeScript-3178C6?style=flat&logo=TypeScript&logoColor=white" />
+</div>
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+<br>
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+### Tools & Librarys 🛠
 
-## Learn More
+<div>
+<img src="https://img.shields.io/badge/styledcomponents-DB7093?style=flat&logo=styled-components&logoColor=white" />
+<img src="https://img.shields.io/badge/axios-5A29E4?style=flat&logo=axios&logoColor=white" />
+<img src="https://img.shields.io/badge/husky-59666C?style=flat&logoColor=white" />
+</div>
 
-To learn more about Next.js, take a look at the following resources:
+<br><br>
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+<div align="right">
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+## 🗃 BE
 
-## Deploy on Vercel
+### 🖋 Third Party API (from SmileGate)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+![![Alt text](%EC%8A%A4%EB%A7%88%EC%9D%BC%EA%B2%8C%EC%9D%B4%ED%8A%B8.png)](public/image/%EC%8A%A4%EB%A7%88%EC%9D%BC%EA%B2%8C%EC%9D%B4%ED%8A%B8.png)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+</div>
+
+<br><br>
+
+## DevOps ⚙
+
+<div>
+<img src="https://img.shields.io/badge/vercel-000000?style=flat&logo=vercel&logoColor=white" />
+<img src="https://img.shields.io/badge/Gabia-4285F4?style=flat&logoColor=white" />
+</div>
+
+<br><br>
+
+## 사이트 구성
+
+![Alt text](<public/image/로아링크 아키텍처.png>)

@@ -6,7 +6,7 @@ import { GemSlot } from "@/components/character/basicInfo/gemSlot";
 import { CardSlot } from "@/components/character/basicInfo/cardSlot";
 import { Collections } from "@/components/character/collections";
 import { AllCharacters } from "@/components/character/AllCharacters";
-import { Skills } from "@/components/character/skills";
+// import { Skills } from "@/components/character/skills"; // 스킬 탭 추가 예정
 
 // style
 import { commonStyles } from "@/components/common/component-style";
@@ -26,7 +26,8 @@ type getUserInfo =
 export default function SearchCharacter({ data }: getUserInfo) {
   const { msg, characters, characterArmories, characterName } = data;
 
-  const detailInfoNav = ["기본정보", "스킬", "수집", "보유 캐릭터"];
+  const detailInfoNav = ["기본정보", "스킬", "수집", "보유 캐릭터"]; //스킬 탭 추가 예정
+  // const detailInfoNav = ["기본정보", "수집", "보유 캐릭터"];
   const { indexNumber, indexHandler } = useIndexHandler();
 
   const initIndexNumber = () => {
@@ -36,7 +37,12 @@ export default function SearchCharacter({ data }: getUserInfo) {
   if (msg !== "success") {
     return (
       <div
-        style={{ textAlign: "center", fontWeight: "bold", fontSize: "20px" }}
+        style={{
+          marginTop: "300px",
+          textAlign: "center",
+          fontWeight: "bold",
+          fontSize: "24px",
+        }}
       >
         존재하지 않는 캐릭터입니다.
       </div>
@@ -55,6 +61,7 @@ export default function SearchCharacter({ data }: getUserInfo) {
         <DetailInfo style={commonStyles.container}>
           <DetailInfoNav>
             {detailInfoNav.map((infos, index) => {
+              if (index === 1) return;
               return (
                 <li key={index} onClick={() => indexHandler(index)}>
                   {infos}
@@ -69,7 +76,7 @@ export default function SearchCharacter({ data }: getUserInfo) {
               <CardSlot cardList={characterArmories.ArmoryCard} />
             </>
           ) : null}
-          {indexNumber === 1 ? <Skills /> : null}
+          {/* {indexNumber === 1 ? <Skills /> : null} */}
           {indexNumber === 2 ? (
             <Collections collectibles={characterArmories.Collectibles} />
           ) : null}
