@@ -71,7 +71,9 @@ export const AllCharacters = ({ characters, initIndexNumber }: Props) => {
                         </InfoBody>
                         <InfoBody>
                           <CombatLvl>Lv.{CharacterLevel}</CombatLvl>
-                          <span>{ItemAvgLevel}</span>
+                          <span style={{ color: "orange" }}>
+                            {ItemAvgLevel}
+                          </span>
                         </InfoBody>
                       </CardInfo>
                     </CardInnerFlex>
