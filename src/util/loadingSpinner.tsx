@@ -3,8 +3,10 @@ import styled, { keyframes } from "styled-components";
 export const LoadingSpinner = () => {
   return (
     <LoadingContainer>
-      <LoadingIcon />
-      <LoadingMsg>Loading...</LoadingMsg>
+      <SpinnerBackground>
+        <LoadingIcon />
+        <LoadingMsg>Loading...</LoadingMsg>
+      </SpinnerBackground>
     </LoadingContainer>
   );
 };
@@ -18,6 +20,18 @@ const LoadingContainer = styled.div`
   left: 50%;
   top: 40%;
   z-index: 999px;
+`;
+
+const SpinnerBackground = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100px;
+  height: 100px;
+  background-color: #8080808b;
+  border-radius: 20px;
+  transform: translate(-30px, 0);
 `;
 
 const spinAnimation = keyframes`
