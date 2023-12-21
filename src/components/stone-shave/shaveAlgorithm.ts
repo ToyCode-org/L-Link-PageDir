@@ -52,7 +52,7 @@ export const recommandAlgorithm = ({
 
   // quit recommand ##
   if (priorityAcceptableFailur < 0 || secondPriorityAcceptableFailur < 0) {
-    return -1;
+    return recommandIndex;
   }
   // quit recommand ##
 
