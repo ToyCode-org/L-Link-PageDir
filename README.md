@@ -54,4 +54,4 @@
 
 ## 배포 환경
 
-<video src="public/video/%EB%A1%9C%EC%95%84%EB%A7%81%ED%81%AC%20%EC%8B%9C%EC%97%B0%EC%98%81%EC%83%81.mp4" controls title="Title"></video>
+<video src="public/video/로아링크 시연영상.mp4" controls title="Title"></video>
