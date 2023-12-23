@@ -54,4 +54,7 @@
 
 ## 배포 환경
 
-<video src="public/video/로아링크 시연영상.mp4" controls title="Title"></video>
+https://github.com/ToyCode-org/L-Link-PageDir/assets/85297720/2a38a2a2-39d3-4e5f-9a28-d367a30e4a47
+
+
+
