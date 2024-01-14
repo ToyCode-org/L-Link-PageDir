@@ -16,6 +16,11 @@ export const Meta = () => {
       <meta property="og:description" content="로스트아크 정보 몰아보기" />
       <meta property="og:image" content={`${getPublicImage("logo")}`} />
       <meta property="og:url" content="http://www.mysite.com" />
+      <script
+        async
+        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4077287316160146"
+        crossOrigin="anonymous"
+      ></script>
     </Head>
   );
 };
