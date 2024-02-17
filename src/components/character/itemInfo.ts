@@ -64,9 +64,9 @@ export const qualityCheck = (qualityValue: number): string => {
   let color = "";
   if (qualityValue < 10) color = "red";
   if (10 <= qualityValue && qualityValue < 30) color = "yellow";
-  if (30 <= qualityValue && qualityValue < 70) color = "green";
+  if (30 <= qualityValue && qualityValue < 70) color = "#32af32";
   if (70 <= qualityValue && qualityValue < 90) color = "blue";
-  if (90 <= qualityValue && qualityValue < 100) color = "purple";
+  if (90 <= qualityValue && qualityValue < 100) color = "#c100e8";
   if (qualityValue === 100) color = "orange";
   return color;
 };

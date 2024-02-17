@@ -27,7 +27,6 @@ export default function SearchCharacter({ data }: getUserInfo) {
   const { msg, characters, characterArmories, characterName } = data;
 
   const detailInfoNav = ["기본정보", "스킬", "수집", "보유 캐릭터"]; //스킬 탭 추가 예정
-  // const detailInfoNav = ["기본정보", "수집", "보유 캐릭터"];
   const { indexNumber, indexHandler } = useIndexHandler();
 
   const initIndexNumber = () => {
