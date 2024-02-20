@@ -6,7 +6,7 @@ import { GemSlot } from "@/components/character/basicInfo/gemSlot";
 import { CardSlot } from "@/components/character/basicInfo/cardSlot";
 import { Collections } from "@/components/character/collections";
 import { AllCharacters } from "@/components/character/AllCharacters";
-// import { Skills } from "@/components/character/skills"; // 스킬 탭 추가 예정
+import { Skills } from "@/components/character/skills";
 
 // style
 import { commonStyles } from "@/components/common/component-style";
@@ -60,7 +60,6 @@ export default function SearchCharacter({ data }: getUserInfo) {
         <DetailInfo style={commonStyles.container}>
           <DetailInfoNav>
             {detailInfoNav.map((infos, index) => {
-              if (index === 1) return;
               return (
                 <li key={index} onClick={() => indexHandler(index)}>
                   {infos}
@@ -75,7 +74,9 @@ export default function SearchCharacter({ data }: getUserInfo) {
               <CardSlot cardList={characterArmories.ArmoryCard} />
             </>
           ) : null}
-          {/* {indexNumber === 1 ? <Skills /> : null} */}
+          {indexNumber === 1 ? (
+            <Skills characterSkills={characterArmories.ArmorySkills} />
+          ) : null}
           {indexNumber === 2 ? (
             <Collections collectibles={characterArmories.Collectibles} />
           ) : null}

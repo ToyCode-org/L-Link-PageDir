@@ -72,3 +72,10 @@ export const qualityCheck = (qualityValue: number): string => {
 };
 
 // bracelet effects
+
+// Tripod Level
+
+export const tripodCheck = (level: number) => {
+  const colors = ["#009300", "#2fa4f9", "yellow", "#e59400", "#db1818"];
+  return colors[level - 1];
+};

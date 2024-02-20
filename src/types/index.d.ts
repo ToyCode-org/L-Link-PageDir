@@ -132,12 +132,13 @@ export type Tripod = {
   Tier: number;
   Tooltip: string;
 };
+export type Rune = { Name: string; Icon: string } | null;
 export type Skill = {
   Icon: string;
   IsAwakening: boolean;
   Level: number;
   Name: string;
-  Rune: string | null;
+  Rune: Rune;
   Tooltip: string;
   Tripods: Tripod[];
   type: string;
