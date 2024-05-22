@@ -40,7 +40,7 @@ export const EquipmentSlot = ({ equipmentInfo }: EquipmentInfo) => {
   const grade: GradeLevel = tooltips.Element_001.value.slotData.iconGrade;
   const qualityValue = tooltips.Element_001.value.qualityValue;
 
-  // console.log(tooltips);
+  // console.log(equipmentInfo);
 
   return (
     <EquipmentItem>

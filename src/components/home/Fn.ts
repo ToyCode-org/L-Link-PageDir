@@ -13,7 +13,7 @@ export const contentFilter = (content: CalenderContents[]) => {
 
   content.forEach(value => {
     const { StartTimes, CategoryName } = value;
-    const todayStart = StartTimes.filter(time => {
+    const todayStart = StartTimes?.filter(time => {
       const contentTime = new Date(time);
       const contentDate = contentTime.getDate();
       const contentHour = contentTime.getHours();
@@ -23,7 +23,7 @@ export const contentFilter = (content: CalenderContents[]) => {
     });
 
     const newValue = { ...value, StartTimes: todayStart };
-    if (todayStart.length) {
+    if (todayStart?.length) {
       switch (CategoryName) {
         case "모험 섬":
           adventure.push(newValue);

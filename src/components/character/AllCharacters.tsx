@@ -15,8 +15,7 @@ export const AllCharacters = ({ characters, initIndexNumber }: Props) => {
   type CharactersInfo = {
     [key: string]: Character[];
   };
-  // sort를 통해 불필요한 연산을 늘리고싶지 않아
-  // object를 사용해 코드가 조금 길어지더라도 조금이라도 빠르게 설계
+
   let characterNameByServer: CharactersInfo = {};
   characters.forEach(info => {
     if (!characterNameByServer[info.ServerName]) {
@@ -30,7 +29,6 @@ export const AllCharacters = ({ characters, initIndexNumber }: Props) => {
   });
 
   const objectKeys = Object.keys(characterNameByServer);
-
   return (
     <Container>
       {objectKeys.map((server, index) => {
@@ -38,49 +36,55 @@ export const AllCharacters = ({ characters, initIndexNumber }: Props) => {
           <React.Fragment key={index}>
             <ServerNameTag>{server}</ServerNameTag>
             <GridBox>
-              {characterNameByServer[server].map((subCharacters, index) => {
-                const {
-                  ServerName,
-                  ItemAvgLevel,
-                  CharacterName,
-                  CharacterLevel,
-                  CharacterClassName,
-                } = subCharacters;
+              {characterNameByServer[server]
+                .sort(
+                  (a, b) =>
+                    Number(b.ItemAvgLevel.replaceAll(",", "")) -
+                    Number(a.ItemAvgLevel.replaceAll(",", "")),
+                )
+                .map((subCharacters, index) => {
+                  const {
+                    ServerName,
+                    ItemAvgLevel,
+                    CharacterName,
+                    CharacterLevel,
+                    CharacterClassName,
+                  } = subCharacters;
 
-                return (
-                  <CharacterCard
-                    key={index}
-                    style={commonStyles.innerContent}
-                    onClick={initIndexNumber}
-                    href={`/character/${CharacterName}`}
-                  >
-                    <CardInnerFlex>
-                      <Image
-                        src={getPublicImage(`class/${CharacterClassName}`)}
-                        width={50}
-                        height={50}
-                        alt="직업이미지"
-                        onError={(e: any) =>
-                          (e.target.src = `${getPublicImage("로아RPG로고")}`)
-                        }
-                      />
-                      <CardInfo>
-                        <InfoBody>
-                          <GuildName>{ServerName}</GuildName>
-                          <span>{CharacterClassName}</span>
-                        </InfoBody>
-                        <InfoBody>
-                          <CombatLvl>Lv.{CharacterLevel}</CombatLvl>
-                          <span style={{ color: "orange" }}>
-                            {ItemAvgLevel}
-                          </span>
-                        </InfoBody>
-                      </CardInfo>
-                    </CardInnerFlex>
-                    <CardFooter>{CharacterName}</CardFooter>
-                  </CharacterCard>
-                );
-              })}
+                  return (
+                    <CharacterCard
+                      key={index}
+                      style={commonStyles.innerContent}
+                      onClick={initIndexNumber}
+                      href={`/character/${CharacterName}`}
+                    >
+                      <CardInnerFlex>
+                        <Image
+                          src={getPublicImage(`class/${CharacterClassName}`)}
+                          width={50}
+                          height={50}
+                          alt="직업이미지"
+                          onError={(e: any) =>
+                            (e.target.src = `${getPublicImage("로아RPG로고")}`)
+                          }
+                        />
+                        <CardInfo>
+                          <InfoBody>
+                            <GuildName>{ServerName}</GuildName>
+                            <span>{CharacterClassName}</span>
+                          </InfoBody>
+                          <InfoBody>
+                            <CombatLvl>Lv.{CharacterLevel}</CombatLvl>
+                            <span style={{ color: "orange" }}>
+                              {ItemAvgLevel}
+                            </span>
+                          </InfoBody>
+                        </CardInfo>
+                      </CardInnerFlex>
+                      <CardFooter>{CharacterName}</CardFooter>
+                    </CharacterCard>
+                  );
+                })}
             </GridBox>
           </React.Fragment>
         );
