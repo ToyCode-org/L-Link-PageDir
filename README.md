@@ -1,6 +1,6 @@
 # 로아링크
 
-[사이트 바로가기](https://loa-link.info/)
+[사이트 바로가기](https://l-link-page-dir.vercel.app/)
 
 23.11.03 -
 
@@ -53,5 +53,7 @@
 ![Alt text](<public/image/로아링크 아키텍처.png>)
 
 ## 배포 환경
+
+### 시즌2
 
 https://github.com/ToyCode-org/L-Link-PageDir/assets/85297720/2a38a2a2-39d3-4e5f-9a28-d367a30e4a47
